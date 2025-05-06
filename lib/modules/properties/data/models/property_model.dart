@@ -24,12 +24,6 @@ class PropertyModel extends Equatable {
     return PropertyEntity(picture: picture, address: address, price: price);
   }
 
-  static List<PropertyModel> fromJsonList(List<dynamic> jsonList) {
-    return jsonList
-        .map((json) => PropertyModel.fromJson(json as Map<String, dynamic>))
-        .toList();
-  }
-
   @override
   List<Object?> get props => [picture, address, price];
 }

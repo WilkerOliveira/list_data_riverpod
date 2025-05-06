@@ -14,6 +14,10 @@ class GetPropertyUsecaseImpl implements GetPropertyUsecase {
 
   @override
   Future<ResultDart<List<PropertyEntity>, PropertiesException>> call() async {
-    return await repository.getProperties();
+    try {
+      return Success(await repository.getProperties());
+    } on Exception catch (e) {
+      return Failure(CouldNotFetchPropertiesException(e.toString()));
+    }
   }
 }

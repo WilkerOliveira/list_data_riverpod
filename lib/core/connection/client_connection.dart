@@ -1,10 +1,14 @@
 import 'package:dio/dio.dart';
+import 'package:list_data_riverpod/core/connection/http_response.dart';
 
 abstract class ClientConnection {
-  Future<Response> get(String path, {Map<String, dynamic>? queryParameters});
-  Future<Response> post(String path, {Map<String, dynamic>? data});
-  Future<Response> put(String path, {Map<String, dynamic>? data});
-  Future<Response> delete(String path, {Map<String, dynamic>? data});
+  Future<HttpResponse> get(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+  });
+  Future<HttpResponse> post(String path, {Map<String, dynamic>? data});
+  Future<HttpResponse> put(String path, {Map<String, dynamic>? data});
+  Future<HttpResponse> delete(String path, {Map<String, dynamic>? data});
 }
 
 class ClientConnectionImpl implements ClientConnection {
@@ -22,22 +26,29 @@ class ClientConnectionImpl implements ClientConnection {
   }
 
   @override
-  Future<Response> get(String path, {Map<String, dynamic>? queryParameters}) {
-    return dio.get(path, queryParameters: queryParameters);
+  Future<HttpResponse> get(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    final result = await dio.get(path, queryParameters: queryParameters);
+    return HttpResponse(data: result.data, statusCode: result.statusCode);
   }
 
   @override
-  Future<Response> post(String path, {Map<String, dynamic>? data}) {
-    return dio.post(path, data: data);
+  Future<HttpResponse> post(String path, {Map<String, dynamic>? data}) async {
+    final result = await dio.post(path, data: data);
+    return HttpResponse(data: result.data, statusCode: result.statusCode);
   }
 
   @override
-  Future<Response> put(String path, {Map<String, dynamic>? data}) {
-    return dio.put(path, data: data);
+  Future<HttpResponse> put(String path, {Map<String, dynamic>? data}) async {
+    final result = await dio.put(path, data: data);
+    return HttpResponse(data: result.data, statusCode: result.statusCode);
   }
 
   @override
-  Future<Response> delete(String path, {Map<String, dynamic>? data}) {
-    return dio.delete(path, data: data);
+  Future<HttpResponse> delete(String path, {Map<String, dynamic>? data}) async {
+    final result = await dio.delete(path, data: data);
+    return HttpResponse(data: result.data, statusCode: result.statusCode);
   }
 }
